@@ -23,3 +23,7 @@ def main():
         command_arg = f"%PATH%;{tools_path}"
         subprocess.run(["setx", "/M", "PATH", command_arg], shell=True)
         print("Setup complete")
+
+
+# main execution
+main()
