@@ -28,6 +28,8 @@ def main(install=None, update=None):
             command_arg = f"{os.environ['PATH']};{tools_path}"
             subprocess.run(["setx", "/M", "PATH", command_arg])
             print("Setup complete")
+        else:
+            print("platform-tools are already in PATH")
 
 
 if is_adb_installed and is_fb_installed:
