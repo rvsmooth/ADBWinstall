@@ -24,7 +24,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build executable
-        run: pyinstaller --onefile main.py
+        run: pyarmor gen --pack onefile main.py
 
       - name: Rename executable
         run: |

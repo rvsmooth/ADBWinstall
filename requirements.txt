@@ -1,5 +1,7 @@
 altgraph==0.17.4
 packaging==25.0
+pyarmor==9.1.8
+pyarmor.cli.core==7.6.7
 pyinstaller==6.15.0
 pyinstaller-hooks-contrib==2025.8
 setuptools==80.9.0
