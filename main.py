@@ -20,8 +20,8 @@ def main():
     if shutil.which("adb"):
         print("adb is already added to the path\nskipping adding it to env")
     else:
-        command_arg = f"%PATH%;{tools_path}"
-        subprocess.run(["setx", "/M", "PATH", command_arg], shell=True)
+        command_arg = f"{os.environ['PATH']};{tools_path}"
+        subprocess.run(["setx", "/M", "PATH", command_arg])
         print("Setup complete")
 
 
