@@ -24,10 +24,16 @@ def prep_tools():
     shutil.unpack_archive(file_name, extract_path, "zip")
 
 
-def add_path():
-    command_arg = f"{os.environ['PATH']};{tools_path}"
-    subprocess.run(["setx", "/M", "PATH", command_arg])
-    print("Setup complete")
+def add_path(add=None, remove=None, path=None):
+    if add and path:
+        command_arg = f"{os.environ['PATH']};{path}"
+        subprocess.run(["setx", "/M", "PATH", command_arg])
+    if remove and path:
+        env_path = envs[:]
+        env_path.remove(path)
+        env = ";".join(env_path)
+        command_arg = f"{env}"
+        subprocess.run(["setx", "/M", "PATH", command_arg])
 
 
 # main function
@@ -38,9 +44,9 @@ def main(install=None, update=None):
     if install:
         if tools_path not in envs:
             print("Adding platform-tools to PATH")
-            add_path()
+            add_path(add=True, path=tools_path)
         else:
-            print("platform-tools are already in PATH")
+            print("platform-tools are already in environment variables")
 
 
 # execution
@@ -55,6 +61,18 @@ if is_adb_installed and is_fb_installed:
             main(update=True)
         else:
             print("You have choosen not to update them.\nAborting...")
+
+    elif not installed_tools_path == tools_path:
+        print(f"platform-tools are installed at {installed_tools_path}")
+        answer = input(
+            f"Do you want to remove this path and install at {tools_path} \nto manage it later with adbwinstall?(y/n)"
+        )
+
+        if answer.lower() == "y":
+            shutil.rmtree(installed_tools_path)
+            envs.remove(installed_tools_path)
+            add_path(remove=True, path=installed_tools_path)
+            main(install=True)
 
 elif not is_adb_installed:
     print("platform-tools are not installed.")
